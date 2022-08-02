@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Login Page";
+}
+@model SimplexTask.Models.ViewModels.UserLoginModel
+<section class="mt-5">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <img src="~/img/login.png"
+                     class="img-fluid" alt="Phone image">
+            </div>
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <form asp-action="Login" method="post" autocomplete="off">
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                    <div class="w-100 d-flex justify-content-center align-items-center mb-2">
+                        <i class="lni lni-user text-danger mx-2 font-weight-bold"></i>
+                        <h4 class="text-danger">Login To Simplex Books</h4>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form1Example13">Email address</label>
+                        <input asp-for="Email" type="email" id="form1Example13" class="form-control form-control-lg" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form1Example23">Password</label>
+                        <input asp-for="Password" type="password" id="form1Example23" class="form-control form-control-lg" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-danger btn-lg btn-block">Sign in</button>
+
+
+
+                    <div class="d-flex justify-content-around align-items-center mt-4">
+                        <div>No Account ? <a asp-action="Register">Create Account</a></div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+</style>

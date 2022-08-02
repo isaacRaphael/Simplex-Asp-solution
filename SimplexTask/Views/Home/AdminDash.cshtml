@@ -1,0 +1,102 @@
+﻿
+@model FilterViewModel
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const filter = document.querySelector('.filter')
+        const trigger = document.querySelector('.trigger')
+        const portal = document.querySelector('.portal')
+
+
+        filter.addEventListener("change", () => {
+            const date = filter.value
+            portal.value = date
+            trigger.submit()
+        })
+
+
+    })
+</script>
+
+<div class="d-flex w-100 justify-content-end align-items-start">
+    <div class="no-image rounded-circle d-flex justify-content-center align-items-center text-white font-weight-bold">A</div>
+    <div class="mx-3">
+        <small class="font-weight-bold">Hello Admin<br /><a asp-controller="Account" asp-action="Logout" class="text-danger">Log Out</a></small>
+    </div>
+</div>
+
+<h2 class="text-danger">Admin Dashboard</h2>
+
+<div class="d-flex w-100 justify-content-end mt-4 align-items-center">
+    <div class="d-flex align-items-center mr-2">
+        <h6>Filter By date</h6>
+        <form class="trigger" asp-action="DateFilter" method="post">
+            <input  class="mx-2 form-control filter" type="date" name="name"  />
+            <input hidden asp-for="Date" class="portal" type="text"  value="" />
+        </form>
+    </div>
+    <a class="btn btn-outline-success ml-2" asp-action="AdminDash">Reset Filter</a>
+</div>
+<h2 class="text-danger mt-4 text-center">All Books</h2>
+@if (ViewBag.Books.Count > 0)
+{
+
+    <div class="row mt-4">
+        @foreach (var item in ViewBag.Books)
+        {
+            <div class="col col-md-4 col-lg-3 p-1 d-flex align-items-stretch">
+                <div class="card w-100 mt-2 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.Author</h6>
+                        <p class="card-text">
+                            <span>
+                                @for (var i = 0; i < item.Rating; i++)
+                                {<i class="lni lni-star-filled text-warning"></i>}
+                        </span>
+                    </p>
+                    <p class="card-text">Created Date : @item.CreatedDate.ToString("dd-MM-yyyy")</p>
+                    <div class="w-100 d-flex justify-content-start align-items-center">
+                        <div class="no-image rounded-circle d-flex justify-content-center align-items-center text-white font-weight-bold">@item.User.Fullname.Substring(0, 1).ToUpper()</div>
+                        <div class="ml-2">
+                            <p class="text-danger">Owner <br /><span class="text-dark">@item.User.Fullname</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+    </div>
+
+}
+else
+{
+    <div class="emp-d w-100 d-flex flex-column justify-content-center align-items-center mt-5">
+
+        <img src="~/img/empty.png" class="img-fluid empty" />
+        <p class="text-center text-muted">empty collection</p>
+    </div>
+}
+
+
+
+<style>
+    .profile {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        object-position: top;
+    }
+
+    .no-image {
+        width: 60px;
+        height: 60px;
+        background-color: #DC3545;
+        font-size: 24px;
+    }
+
+    .empty {
+        width: 200px;
+    }
+</style>

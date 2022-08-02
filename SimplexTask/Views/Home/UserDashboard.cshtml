@@ -1,0 +1,111 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SimplexTask.Models.Entities.User
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        const filter = document.querySelector('.filter')
+        const filterForm = document.querySelector('.filterForm')
+       
+        filter.addEventListener("change", () => {
+            filterForm.submit()
+        })
+    })
+</script>
+
+<div class="d-flex w-100 justify-content-end align-items-start">
+    <div class="no-image rounded-circle d-flex justify-content-center align-items-center text-white font-weight-bold">@Model.Fullname.Substring(0, 1).ToUpper()</div>
+    <div class="mx-3">
+        <small class="font-weight-bold">Hello @Model.Fullname <br /><a asp-controller="Account" asp-action="Logout" class="text-danger">Log Out</a></small>
+    </div>
+</div>
+
+<h2 class="text-danger">Manage Books</h2>
+
+<div class="d-flex w-100 justify-content-between mt-4">
+    <a asp-action="NewBook" asp-route-Email=@Model.Email class="btn btn-outline-success">Add to Collection</a>
+    <div class="d-flex align-items-center">
+        <h5>Filter By Rating</h5>
+        <form class="filterForm mx-2" action="RatingFilter" method="post">
+            <input hidden asp-for="Email" value=@Model.Email type="text"/>
+            <select class="filter form-control" asp-for="PhoneNumber">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="*">*</option>
+            </select>
+        </form>
+        
+
+
+    </div>
+</div>
+
+<h2 class="text-danger mt-4">@Model.Fullname.Split(" ")[0]'s Collection </h2>
+    @if (Model.Books.Any()){
+
+
+    <table class="mt-5 table table-striped table-bordered" >
+       <thead>
+           <tr>
+               <th class="font-weight-bold">Book Title</th>
+               <th class="font-weight-bold">Book Author</th>
+               <th class="font-weight-bold">Book Rating</th>
+               <th class="font-weight-bold">Update Actions</th>
+           </tr>
+       </thead>
+       <tbody>
+           @foreach(var item in Model.Books)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Author</td>
+                        <td>@for(var r = 0; r < item.Rating; r++) { <i class="lni lni-star-filled text-warning"></i>}</td>
+                        <td>
+                            <a asp-action="BookDelete" asp-route-Id=@item.Id  class="btn btn-danger mx-1 confirmer" ><i class="lni lni-trash-can mx-1 "></i>Delete </a>
+                            <a asp-action="BookEdit" asp-route-Id=@item.Id class="btn btn-success mx-1" ><i class="lni lni-pencil-alt mx-1"></i>Edit</a>
+                        </td>
+                    </tr>
+                }
+       </tbody>
+
+    </table>
+    }
+    else
+    {
+<div class="emp-d w-100 d-flex flex-column justify-content-center align-items-center mt-5">
+
+    <img src="~/img/empty.png" class="img-fluid empty"/>
+    <p class="text-center text-muted">empty collection</p>
+</div>
+    }
+
+
+
+
+
+<style>
+    .profile {
+        width : 60px;
+        height: 60px;
+        object-fit : cover;
+        object-position : top;
+    }
+
+    .no-image {
+        width: 60px;
+        height: 60px;
+        background-color: #DC3545;
+        font-size : 24px;
+    }
+    
+    .empty {
+        width : 200px;
+    }
+</style>
